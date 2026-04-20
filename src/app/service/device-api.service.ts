@@ -29,6 +29,11 @@ export class DeviceApiService extends ApiURLBaseService {
     .pipe(catchError(this.handleError));
   }
 
+  changeManaged(id: number): Observable<void> {
+    return this.http.patch<void>(`${this.baseUrl}/devices/${id}/change-managed-status`, {})
+      .pipe(catchError(this.handleError));
+  }
+
   delete(id: number): Observable<void> {
     return this.http
       .delete<void>(`${this.baseUrl}/devices/${id}`)

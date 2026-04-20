@@ -42,13 +42,16 @@
 </tr>
 </thead>
   <tbody>
-    @for (device of tableDevices.data; track device){
+    @for (device of tableDevices.data; track device.id){
       <tr>
         <td>{{device.name}}</td>
         <td>{{device.category}}</td>
         <td>{{device.mac_address}}</td>
         <td>{{device.ip_address}}</td>
         <td>{{device.network_name}}</td>
+        <td>
+          <nz-switch [(ngModel)]="device.managed" (ngModelChange)="isManaged.emit(device.id)" [nzLoading]="isLoading(device.id)" />
+        </td>
         <td class="actions">
           <button class="button" nz-button nzType="primary" nzShape="round" (click)="edit.emit(device)">Edit</button>
           <button class="button" nz-button nzDanger nzType="primary" nzShape="round" (click)="showDeleteConfirm(device)">Delete</button>

@@ -39,6 +39,9 @@ export class DevicesPage {
   public tableLoading = signal<boolean>(false);
   public devices = this._devices.asReadonly();
 
+  // Toggle
+  public toggleManaged = signal<Record<number, boolean>>({});
+
   // Modal
   public modalVisible = signal<boolean>(false);
   modalOpen(): void {
@@ -132,10 +135,29 @@ export class DevicesPage {
     });
   }
 
+  updateManaged(id: number) {
+    this.toggleManaged.update(state => {
+      return {...state, [id]: true};
+    })
+    this.deviceApiService.changeManaged(id).subscribe({
+      next: (response: any) => {
+        this.getAllDevices();
+      },
+      error: err => {
+        this.appModalService.showError(err.message);
+      },
+      complete: () => {
+        this.createSuccessMessage('Updated successfully.');
+        this.toggleManaged.update(state => {
+          return {...state, [id]: false};
+        })
+      }
+    })
+  }
+
   deleteDevice(id: number) {
     this.deviceApiService.delete(id).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.getAllDevices()
       },
       error: (err) => {

@@ -10,13 +10,15 @@ import {FormsModule} from '@angular/forms';
 import {NzButtonComponent, NzButtonModule} from 'ng-zorro-antd/button';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzModalModule } from 'ng-zorro-antd/modal';
+import {NzSwitchComponent} from 'ng-zorro-antd/switch';
+import {async} from 'rxjs';
 
 
 @Component({
   selector: 'app-devices-table-component',
   standalone: true,
   imports: [
-    NzTableModule, NzInputModule, NzFormLabelComponent, NzSelectComponent, NzFlexDirective, FormsModule, NzOptionComponent, NzButtonComponent,NzModalModule, NzButtonModule,
+    NzTableModule, NzInputModule, NzFormLabelComponent, NzSelectComponent, NzFlexDirective, FormsModule, NzOptionComponent, NzButtonComponent, NzModalModule, NzButtonModule, NzSwitchComponent,
   ],
   templateUrl: './devices-table.html',
   styleUrl: './devices-table.css',
@@ -31,6 +33,7 @@ export class DevicesTable {
     { key: 'mac_address', title: 'MAC Address', compare: (a: Device, b: Device) => a.mac_address.localeCompare(b.mac_address), priority: false },
     { key: 'ip_address', title: 'IP Address', compare: (a: Device, b: Device) => a.ip_address.localeCompare(b.ip_address), priority: false },
     { key: 'network_name', title: 'Network', compare: (a: Device, b: Device) => a.network_name.localeCompare(b.network_name), priority: false },
+    { key: 'managed', title: 'DHCP', compare: false, priority: false },
     { key: 'action', title: 'Actions', compare: false, priority: false },
   ]);
   devices = input.required<Device[]>();
@@ -39,6 +42,11 @@ export class DevicesTable {
   tableLoading = input.required<boolean>();
   delete = output<number>();
   edit = output<Device>();
+  toggleManaged = input.required<Record<number, boolean>>();
+  public isLoading(id: number) {
+    return this.toggleManaged()[id] ?? false;
+  }
+  isManaged = output<number>();
 
   //Filter
   nameFilter = signal("");

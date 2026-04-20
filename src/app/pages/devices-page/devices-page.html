@@ -3,5 +3,5 @@
 </app-top-bar-component>
 <div class="mainContainer">
 <app-devices-form-modal-component [deviceToEdit]="deviceToEdit()" [listOfNetworks]="listOfNetworks()"  [modalVisible]="modalVisible()" (modalClose)="modalClose()" (submitSave)="saveDevice($event)" (submitUpdate)="updateDevice($event)"></app-devices-form-modal-component>
-<app-devices-table-component [tableLoading]="tableLoading()" [devices]="devices()"  (delete)="deleteDevice($event)" (edit)="modalOpenToEdit($event)"></app-devices-table-component>
+<app-devices-table-component [tableLoading]="tableLoading()" [devices]="devices()"  (delete)="deleteDevice($event)" (edit)="modalOpenToEdit($event)" (isManaged)="updateManaged($event)" [toggleManaged]="toggleManaged()" ></app-devices-table-component>
 </div>
